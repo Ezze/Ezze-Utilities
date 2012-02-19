@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ezze-utils" default="jar">
+    
+    <description>Builds Ezze Utilities library</description>
+
+    <property name="main-class" value="org.ezze.utils.Library" />
+    <property name="src.dir" value="src" />
+    <property name="build.dir" value="build" />
+    <property name="classes.dir" value="${build.dir}/classes" />
+    <property name="jar.dir" value="jar" />
+    <property name="javadoc.dir" value="javadoc" />
+    
+    <property file="${src.dir}/org/ezze/utils/resources/ezze-utils.properties" />
+    
+    <patternset id="resources">
+        <include name="org/ezze/utils/resources/**" />
+    </patternset>
+    
+    <path id="resourcespath">
+        <fileset dir="${src.dir}">
+            <patternset refid="resources" />
+        </fileset>
+    </path>
+    
+    <target name="clean">
+        <delete dir="${build.dir}" />
+        <delete dir="${jar.dir}" />
+    </target>
+        
+    <target name="compile">
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${classes.dir}" />
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false" debug="true" debuglevel="lines,vars,source" />
+        <copy todir="${classes.dir}">
+            <path refid="resourcespath" />
+        </copy>
+    </target>
+    
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}" />
+        <jar destfile="${jar.dir}/${ant.project.name}-${library.version}.jar" basedir="${classes.dir}">
+            <manifest>
+                <!--<attribute name="Main-Class" value="${main-class}" />-->
+            </manifest>
+        </jar>
+    </target>
+    
+    <target name="run" depends="jar">
+        <java jar="${jar.dir}/${ant.project.name}-${library.version}.jar" fork="true" />
+    </target>
+    
+    <target name="debug" depends="compile">
+        <nbjpdastart addressproperty="jpda.address" name="${ant.project.name}" transport="dt_socket">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+        </nbjpdastart>
+        <java fork="true" classname="${main-class}">            
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <jvmarg value="-Xdebug" />
+            <jvmarg value="-Xnoagent" />
+            <jvmarg value="-Djava.compiler=none" />
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}" />
+        </java>
+    </target>
+    
+    <target name="javadoc">
+        <delete dir="${javadoc.dir}" />
+        <javadoc destdir="${javadoc.dir}" author="yes" version="yes">
+            <packageset dir="${src.dir}" defaultexcludes="yes" />
+        </javadoc>
+    </target>
+ 
+</project>
