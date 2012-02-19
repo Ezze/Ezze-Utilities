@@ -3,3 +3,32 @@ EZZE UTILITIES
   Version: 0.0.1
   Author: Dmitriy Pushkov (ezze@ezze.org)
   Web-site: http://www.ezze.org
+
+
+DESCRIPTION
+
+  A common Java library used in Ezze applications.
+
+
+HOW TO BUILD
+
+  One may use "build.xml" in the root of this repository to build the project
+  with Ant (the original jar was built with Ant 1.8.2). This one implements
+  the following targets:
+    - clean (removes "build" and "jar" directories);
+    - compile (compiles source code from "src" directory in "build/classes",
+      please note that main class is to be specified in manifest tag to make
+      the library runnable);
+    - jar (creates library's jar file "jar/ezze-utils-x.y.z.jar");
+    - run (starts library "jar/ezze-utils-x.y.z.jar" if main class was
+      specified during the compilation);
+    - debug (debugs a project using NetBeans debugger);
+    - javadoc (generates project's javadoc in "javadoc" directory).
+      
+  "x.y.z" is a current version of the library defined by library.version
+  property of "src/ezze/utils/resources/ezze-utils.properties" file.
+
+  Please note that JDK6 (Java Development Kit 6) is required for the build.
+  
+  I tried to comment the code as good as possible so you can find more
+  information right in source code or in "javadoc" directory.

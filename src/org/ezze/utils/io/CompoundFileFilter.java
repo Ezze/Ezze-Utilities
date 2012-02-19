@@ -124,7 +124,7 @@ public class CompoundFileFilter extends FileFilter {
     /**
      * Sets an index of default single choosable file filter.
      * 
-     * @param
+     * @param defaultFileFilterIndex
      *      Index of default file filter.
      */
     public void setDefaultFileFilterIndex(int defaultFileFilterIndex) {
