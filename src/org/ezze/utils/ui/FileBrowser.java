@@ -3,14 +3,16 @@ package org.ezze.utils.ui;
 import org.ezze.utils.io.DirectoryManager;
 import java.awt.Component;
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
+import org.ezze.utils.io.CompoundFileFilter;
 
 /**
  * Collects a set of static methods to browse for files and directories.
  *
  * @author Dmitriy Pushkov
- * @version 0.0.1
+ * @version 0.0.2
  */
 public class FileBrowser {
 
@@ -156,16 +158,38 @@ public class FileBrowser {
         fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
         fileChooser.setMultiSelectionEnabled(multiSelection);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        
         if (initialDir != null) {
             
             File initialDirFile = DirectoryManager.findClosestExistingDirectory(new File(initialDir));
             if (initialDirFile != null)
                 fileChooser.setCurrentDirectory(initialDirFile);
         }
+        
         if (filter != null) {
-            
-            fileChooser.setFileFilter(filter);
+        
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            if (filter instanceof CompoundFileFilter) {
+                
+                ArrayList<FileFilter> choosableFileFilters = ((CompoundFileFilter)filter).getFileFilters();
+                if (!choosableFileFilters.isEmpty()) {
+                    
+                    for (FileFilter choosableFileFilter : choosableFileFilters) {
+                        
+                        fileChooser.addChoosableFileFilter(choosableFileFilter);
+                    }
+                }
+                
+                int defaultFileFilterIndex = ((CompoundFileFilter)filter).getDefaultFileFilterIndex();
+                if (defaultFileFilterIndex >= 0)
+                    fileChooser.setFileFilter(fileChooser.getChoosableFileFilters()[defaultFileFilterIndex]);
+            }
+            else {
+                
+               fileChooser.setFileFilter(filter);
+            }
         }
+        
         int openResult = fileChooser.showOpenDialog(parent);
         if (openResult == JFileChooser.APPROVE_OPTION) {
             
