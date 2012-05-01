@@ -1,12 +1,14 @@
 package org.ezze.utils.application;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 
 /**
  * Class containing a single static method to determine application's executable path.
  * 
  * @author Dmitriy Pushkov
- * @version 0.0.1
+ * @version 0.0.2
  */
 public class ApplicationPath {
     
@@ -56,6 +58,16 @@ public class ApplicationPath {
             
             applicationPath = applicationPath.replace('/', '\\');
             applicationPath = applicationPath.replaceFirst(("^[\\\\]{1,}"), "");
+        }
+        
+        // Decoding URL characters
+        try {
+            
+            applicationPath = URLDecoder.decode(applicationPath, "UTF-8");
+        }
+        catch (UnsupportedEncodingException ex) {
+        
+            return null;
         }
 
         // Storing application path for further method's calls

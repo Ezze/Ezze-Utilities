@@ -8,6 +8,9 @@ EZZE UTILITIES
 DESCRIPTION
 
   A common Java library used in Ezze applications.
+  
+  Version 0.0.2 changes:
+    - application path's encoded characters' issue has been fixed.
 
 
 HOW TO BUILD
