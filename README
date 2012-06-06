@@ -1,6 +1,6 @@
 EZZE UTILITIES
 
-  Version: 0.0.1
+  Version: 0.0.2
   Author: Dmitriy Pushkov (ezze@ezze.org)
   Web-site: http://www.ezze.org
 
@@ -9,7 +9,10 @@ DESCRIPTION
 
   A common Java library used in Ezze applications.
   
-  Version 0.0.2 changes:
+  
+CHANGELOG
+  
+  0.0.2:
     - application path's encoded characters' issue has been fixed.
 
 
